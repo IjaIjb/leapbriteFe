@@ -9,15 +9,15 @@ import { Link } from "react-router-dom";
 
 const SchoolStudents = () => {
   const [open, setOpen] = useState(false);
-  const onOpenModal = () => {
-    // e.preventDefault();
-    setOpen(true);
-  };
+  // const onOpenModal = () => {
+  //   // e.preventDefault();
+  //   setOpen(true);
+  // };
   const onCloseModal = () => setOpen(false);
 
-  const handleDetails = () => {
-    onOpenModal(); // Open the modal
-  };
+  // const handleDetails = () => {
+  //   onOpenModal(); // Open the modal
+  // };
 
   const initialData = {
     email: "",

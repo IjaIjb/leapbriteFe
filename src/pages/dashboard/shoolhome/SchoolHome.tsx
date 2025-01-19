@@ -1,7 +1,6 @@
 import React from "react";
 import DashboardLayout from "../../../components/DashboardLayout";
 import SchoolRecentPayments from "./SchoolRecentPayments";
-import SchoolNews from "./SchoolNews";
 import SchoolEarningsChart from "./SchoolEarningsChart";
 import SchoolStudentChart from "./SchoolStudentChart";
 import ParentChart from "./ParentChart";

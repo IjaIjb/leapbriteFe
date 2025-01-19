@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { capitalizeFirstLetter } from '../utils/stringHelpers';
 
 const BreadscrumbDisplay = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 type Props = {
   toggle: () => void;

@@ -13,7 +13,7 @@ const StudentDetails = () => {
           <h2 className="text-xl font-bold mt-2">James Harlow <span className="text-blue-500">(14)</span></h2>
           <p className="text-gray-600">jamesfresh45@gmail.com</p>
           <p className="text-gray-600">+44 7908 8904 99</p>
-          <a href="#" className="text-blue-500">JS53 Gold</a>
+          <p className="text-blue-500">JS53 Gold</p>
         </div>
 
         {/* Payments and Pending Cards */}

@@ -1,30 +1,33 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import LoadingSpinner from "../../../components/UI/LoadingSpinner";
 import * as Yup from "yup";
 import COUNTRYDATA from "../../../assets/country-list.json";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+// import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { useHistory } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { AuthApis } from "../../../apis/authApis";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const SchoolDetails = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setShowConfirmPassword] = useState(false);
-  const [countryValue, setCountryValue] = useState([]);
+  // const [countryValue, setCountryValue] = useState([]);
   const [showScreen, setShowScreen] = useState(1);
   const history = useHistory();
 
   const optionCountries: any = [];
   const optionState: any = [];
-  COUNTRYDATA.map((item) => {
+  COUNTRYDATA.forEach((item) => {
     optionCountries.push({ label: item.name, value: item.name });
   });
+  
+
   const customStyles = {
     control: (base: any, state: any) => ({
       ...base,
@@ -304,7 +307,7 @@ const SchoolDetails = () => {
               validationSchema={validation}
               onSubmit={onSubmit}
             >
-              {({ values, setFieldValue,handleChange }) => (
+              {({ values, setFieldValue,isSubmitting }) => (
                 <Form className="w-full  mt-10 lg:mt-10 mb-6 flex flex-col justify-between">
                   <div className={showScreen === 1 ? "block" : "hidden"}>
                     <div className=" mb-5 relative">
@@ -429,31 +432,29 @@ const SchoolDetails = () => {
                         Country
                       </label>
                       <Select
-                        name="country"
-                        options={optionCountries}
-                        isSearchable
-                        theme={customTheme}
-                        styles={customStyles}
-                        // defaultInputValue={props.customer!.country}
-                        placeholder="select country"
-                        noOptionsMessage={() => "Country not found"}
-                        onChange={(options: any) => {
-                          setFieldValue("country", options!.value);
-                          setCountryValue(options!.country);
-                          optionState?.splice(0, optionState!.length);
+    name="country"
+    options={optionCountries}
+    isSearchable
+    theme={customTheme}
+    styles={customStyles}
+    placeholder="select country"
+    noOptionsMessage={() => "Country not found"}
+    onChange={(options: any) => {
+      setFieldValue("country", options!.value);
+      // setCountryValue(options!.country);
 
-                          COUNTRYDATA.filter(
-                            (item) => item.iso2 === options!.value
-                          ).map((item) => {
-                            item.states.map((values) =>
-                              optionState!.push({
-                                label: values.name,
-                                value: values.name,
-                              })
-                            );
-                          });
-                        }}
-                      />
+      // Clear and repopulate the states based on the selected country
+      optionState.length = 0; // Clear the array
+      const selectedCountry = COUNTRYDATA.find(
+        (item) => item.name === options!.value
+      );
+      if (selectedCountry) {
+        selectedCountry.states.forEach((state) =>
+          optionState.push({ label: state.name, value: state.name })
+        );
+      }
+    }}
+  />
                       <div className="flex justify-between mt-1">
                         <p className="text-red-700 text-xs ">
                           <ErrorMessage name="country" />
@@ -468,19 +469,19 @@ const SchoolDetails = () => {
                       >
                       State
                     </label>
-                      <CreatableSelect
-                        name="state"
-                        options={optionState}
-                        isSearchable
-                        isClearable
-                        theme={customTheme}
-                        styles={customStyles}
-                        placeholder="select a state"
-                        noOptionsMessage={() => "select a Country"}
-                        onChange={(options: any) => {
-                          setFieldValue("state", options!.value);
-                        }}
-                      />
+                    <CreatableSelect
+    name="state"
+    options={optionState}
+    isSearchable
+    isClearable
+    theme={customTheme}
+    styles={customStyles}
+    placeholder="select a state"
+    noOptionsMessage={() => "select a Country"}
+    onChange={(options: any) => {
+      setFieldValue("state", options?.value || "");
+    }}
+  />
                     </div>
 
                     <div className=" mb-5 relative">
@@ -796,7 +797,7 @@ const SchoolDetails = () => {
                             />
                             <button
                               type="button"
-                              role="button"
+                              // role="button"
                               aria-label="show password"
                               title=" show password"
                               onClick={() =>
@@ -832,7 +833,7 @@ const SchoolDetails = () => {
                             />
                             <button
                               type="button"
-                              role="button"
+                              // role="button"
                               aria-label="show password"
                               title=" show password"
                               onClick={() =>
@@ -863,9 +864,10 @@ const SchoolDetails = () => {
                         className={`disabled:bg-gray-500  flex gap-2 items-center py-2 w-fit px-6 bg-primary text-white rounded-full  hover:bg-primary/[70%]
 }`}
                       >
-                        {/* {isSubmitting ? <LoadingSpinner /> : "Continue"}
-                        {!isSubmitting && <FaArrowRight />} */}
+                       {isSubmitting ? <LoadingSpinner /> : "Continue"}
+                        {!isSubmitting && <FaArrowRight />} 
                         contininue
+
                       </button>
                     </div>
                   ) : (
@@ -879,9 +881,9 @@ const SchoolDetails = () => {
                         // disabled={isSubmitting} // Disable button if no option is selected
                         className={`disabled:bg-gray-500  flex gap-2 items-center py-2 w-fit px-6 bg-[#E0E0E0] rounded-full 
 }`}
-                      >Back
-                        {/* {!isSubmitting && <FaArrowLeft />}
-                        {isSubmitting ? <LoadingSpinner /> : "Back"} */}
+                      >
+                     <FaArrowLeft />
+                         {"Back"} 
                       </div>
 
                       <button
@@ -896,9 +898,9 @@ const SchoolDetails = () => {
                         // disabled={isSubmitting} // Disable button if no option is selected
                         className={`disabled:bg-gray-500  flex gap-2 items-center py-2 w-fit px-6 bg-primary text-white rounded-full  hover:bg-primary/[70%]
 }`}
-                      >Continue
-                        {/* {isSubmitting ? <LoadingSpinner /> : "Contine"}
-                        {!isSubmitting && <FaArrowRight />} */}
+                      >
+                        {isSubmitting ? <LoadingSpinner /> : "Contine"}
+                        {!isSubmitting && <FaArrowRight />}
                       </button>
                     </div>
                   )}

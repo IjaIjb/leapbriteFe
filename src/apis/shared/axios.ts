@@ -80,14 +80,14 @@ export class AxiosGlobal {
                 // store.dispatch(signoutUser());
 
                 // navigate(AppRoutes.Account, true);
-                return Promise.reject({ ...error });
+                // return Promise.reject({ ...error });
             } else if (error && error.response && error.response.status === 403) {
                 return 'Unauthorized';
                 // if (error?.response?.data?.message || error?.response?.data?.ErrorMessage) {
                 //     notification.message = error.response.data.message || error.response.data.ErrorMessage;
                 // }
                 // store.dispatch(toggleNotification(notification));
-                return Promise.reject({ ...error });
+                // return Promise.reject({ ...error });
             } else if (error && error.response && error.response.status === 400) {
                 return 'One of the field validation failed';
 
@@ -102,7 +102,7 @@ export class AxiosGlobal {
 
                 // store.dispatch(toggleNotification(notification));
 
-                return Promise.reject(error);
+                // return Promise.reject(error);
             } else if (error?.response?.status === 404) {
                  return 'record not found';
 
@@ -115,12 +115,12 @@ export class AxiosGlobal {
 
                 // store.dispatch(toggleNotification(notification));
 
-                return Promise.reject(error);
+                // return Promise.reject(error);
             } else if (error && error.response && error.response.status === 500) {
                 return 'internal server error';
                 // store.dispatch(toggleNotification(notification));
 
-                return Promise.reject(error);
+                // return Promise.reject(error);
             } else {
                 return Promise.reject(error);
             }
